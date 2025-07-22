@@ -1,0 +1,279 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Arabic Marketing Website Design System */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    /* Professional Arabic Brand Colors */
+    --background: 0 0% 100%;
+    --foreground: 222 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 84% 4.9%;
+
+    /* Deep Professional Blue */
+    --primary: 217 91% 22%;
+    --primary-foreground: 0 0% 98%;
+    --primary-glow: 217 91% 32%;
+
+    /* Elegant Gold Accent */
+    --secondary: 45 86% 62%;
+    --secondary-foreground: 222 84% 4.9%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215 16% 46.9%;
+
+    --accent: 217 91% 32%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 217 91% 22%;
+
+    --radius: 0.75rem;
+
+    /* Professional Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(217 91% 22%), hsl(217 91% 32%));
+    --gradient-secondary: linear-gradient(135deg, hsl(45 86% 62%), hsl(45 86% 72%));
+    --gradient-hero: linear-gradient(135deg, hsl(217 91% 22% / 0.9), hsl(217 91% 32% / 0.8));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(210 40% 98%));
+
+    /* Professional Shadows */
+    --shadow-elegant: 0 20px 40px -12px hsl(217 91% 22% / 0.15);
+    --shadow-card: 0 8px 24px -6px hsl(217 91% 22% / 0.12);
+    --shadow-glow: 0 0 48px hsl(217 91% 32% / 0.25);
+
+    /* Smooth Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-arabic;
+    font-family: 'Noto Sans Arabic', 'Inter', system-ui, sans-serif;
+  }
+
+  /* RTL Support */
+  [dir="rtl"] {
+    direction: rtl;
+    text-align: right;
+  }
+
+  /* Custom scrollbar for Arabic design */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary));
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary-glow));
+  }
+}
+
+@layer components {
+  /* Arabic Typography Utilities */
+  .font-arabic {
+    font-family: 'Noto Sans Arabic', 'Inter', system-ui, sans-serif;
+  }
+
+  .text-hero {
+    @apply text-4xl md:text-6xl font-bold leading-tight;
+  }
+
+  .text-section-title {
+    @apply text-3xl md:text-4xl font-bold mb-6;
+  }
+
+  .text-card-title {
+    @apply text-xl md:text-2xl font-semibold mb-4;
+  }
+
+  /* Professional Button Variants */
+  .btn-hero {
+    @apply bg-gradient-to-r from-primary to-accent text-primary-foreground;
+    @apply px-8 py-4 rounded-xl font-semibold text-lg;
+    @apply transform transition-all duration-300 hover:scale-105;
+    @apply shadow-card hover:shadow-glow;
+  }
+
+  .btn-secondary {
+    @apply bg-gradient-to-r from-secondary to-secondary/80;
+    @apply text-secondary-foreground px-6 py-3 rounded-lg font-medium;
+    @apply transform transition-all duration-300 hover:scale-105;
+    @apply shadow-card hover:shadow-elegant;
+  }
+
+  /* Card Styles */
+  .card-elegant {
+    @apply bg-card rounded-xl p-6 shadow-card;
+    @apply border border-border/50;
+    @apply transform transition-all duration-300 hover:scale-105;
+    @apply hover:shadow-elegant;
+    background: var(--gradient-card);
+  }
+
+  .card-service {
+    @apply card-elegant text-center;
+    @apply hover:bg-primary/5 hover:border-primary/20;
+  }
+
+  /* Professional Input Styles */
+  .input-arabic {
+    @apply w-full p-4 rounded-lg border border-border;
+    @apply focus:ring-2 focus:ring-primary focus:border-primary;
+    @apply bg-background text-foreground;
+    @apply transition-all duration-300;
+    @apply placeholder:text-muted-foreground;
+  }
+
+  /* Animation Classes */
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+  }
+
+  .animate-slide-in-right {
+    animation: slideInRight 0.8s ease-out;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.4s ease-out;
+  }
+}
+
+@layer utilities {
+  /* RTL-specific utilities */
+  .rtl-space-x-4 > :not([hidden]) ~ :not([hidden]) {
+    margin-right: 1rem;
+    margin-left: 0;
+  }
+
+  .rtl-space-x-6 > :not([hidden]) ~ :not([hidden]) {
+    margin-right: 1.5rem;
+    margin-left: 0;
+  }
+
+  /* Professional shadows using design tokens */
+  .shadow-professional {
+    box-shadow: var(--shadow-elegant);
+  }
+
+  .shadow-card-hover {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-glow-hover {
+    box-shadow: var(--shadow-glow);
+  }
+}
+
+/* Keyframe Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
