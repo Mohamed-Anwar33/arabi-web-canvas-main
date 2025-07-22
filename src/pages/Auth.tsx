@@ -1,23 +1,29 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Eye, EyeOff, ArrowLeft, User, Lock } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
-import { useToast } from '@/hooks/use-toast';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Eye, EyeOff, ArrowLeft, User, Lock } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 const Auth = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(true); // إجبار الوضع على تسجيل الدخول فقط
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
-    fullName: ''
+    email: "",
+    password: "",
+    confirmPassword: "",
+    fullName: "",
   });
-  
+
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -25,14 +31,14 @@ const Auth = () => {
     // Check if user is already logged in
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
-        navigate('/dashboard');
+        navigate("/dashboard");
       }
     });
   }, [navigate]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const validateForm = () => {
@@ -40,7 +46,7 @@ const Auth = () => {
       toast({
         title: "خطأ",
         description: "يرجى ملء جميع الحقول المطلوبة",
-        variant: "destructive"
+        variant: "destructive",
       });
       return false;
     }
@@ -50,7 +56,7 @@ const Auth = () => {
         toast({
           title: "خطأ",
           description: "كلمات المرور غير متطابقة",
-          variant: "destructive"
+          variant: "destructive",
         });
         return false;
       }
@@ -59,7 +65,7 @@ const Auth = () => {
         toast({
           title: "خطأ",
           description: "كلمة المرور يجب أن تكون على الأقل 6 أحرف",
-          variant: "destructive"
+          variant: "destructive",
         });
         return false;
       }
@@ -68,7 +74,7 @@ const Auth = () => {
         toast({
           title: "خطأ",
           description: "يرجى إدخال الاسم الكامل",
-          variant: "destructive"
+          variant: "destructive",
         });
         return false;
       }
@@ -88,25 +94,34 @@ const Auth = () => {
       if (isLogin) {
         const { error } = await supabase.auth.signInWithPassword({
           email: form.email,
-          password: form.password
+          password: form.password,
         });
 
         if (error) {
-          if (error.message.includes('Invalid login credentials')) {
-            throw new Error('البريد الإلكتروني أو كلمة المرور غير صحيحة');
+          if (error.message.includes("Invalid login credentials")) {
+            throw new Error("البريد الإلكتروني أو كلمة المرور غير صحيحة");
           }
           throw error;
         }
 
         toast({
           title: "تم تسجيل الدخول بنجاح",
-          description: "مرحباً بك في لوحة التحكم"
+          description: "مرحباً بك في لوحة التحكم",
         });
 
-        navigate('/dashboard');
+        navigate("/dashboard");
       } else {
+        // تم تعطيل إنشاء الحساب لأسباب أمنية
+        toast({
+          title: "إنشاء الحساب غير متاح",
+          description: "تم تعطيل التسجيل لأسباب أمنية",
+          variant: "destructive",
+        });
+        setIsLogin(true);
+        setLoading(false);
+        return;
+        /*
         const redirectUrl = `${window.location.origin}/`;
-        
         const { error } = await supabase.auth.signUp({
           email: form.email,
           password: form.password,
@@ -117,28 +132,26 @@ const Auth = () => {
             }
           }
         });
-
         if (error) {
           if (error.message.includes('User already registered')) {
             throw new Error('المستخدم مسجل مسبقاً. يرجى تسجيل الدخول');
           }
           throw error;
         }
-
         toast({
           title: "تم إنشاء الحساب بنجاح",
           description: "يرجى تأكيد بريدك الإلكتروني لإكمال التسجيل"
         });
-
         setIsLogin(true);
         setForm({ email: '', password: '', confirmPassword: '', fullName: '' });
+        */
       }
     } catch (error: any) {
-      console.error('Auth error:', error);
+      console.error("Auth error:", error);
       toast({
         title: isLogin ? "خطأ في تسجيل الدخول" : "خطأ في إنشاء الحساب",
         description: error.message || "حدث خطأ غير متوقع",
-        variant: "destructive"
+        variant: "destructive",
       });
     } finally {
       setLoading(false);
@@ -146,11 +159,14 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-accent/5 flex items-center justify-center p-4" dir="rtl">
+    <div
+      className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-accent/5 flex items-center justify-center p-4"
+      dir="rtl"
+    >
       <div className="w-full max-w-md">
         {/* Back to Home Button */}
         <Button
-          onClick={() => navigate('/')}
+          onClick={() => navigate("/")}
           variant="ghost"
           className="mb-6 text-primary hover:text-accent"
         >
@@ -163,22 +179,18 @@ const Auth = () => {
             <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-primary to-accent rounded-xl flex items-center justify-center">
               <User className="w-8 h-8 text-primary-foreground" />
             </div>
-            
             <CardTitle className="text-2xl font-bold text-primary font-arabic">
-              {isLogin ? 'تسجيل الدخول' : 'إنشاء حساب جديد'}
+              {"تسجيل الدخول"}
             </CardTitle>
-            
             <CardDescription className="font-arabic">
-              {isLogin 
-                ? 'مرحباً بعودتك! يرجى تسجيل الدخول لحسابك' 
-                : 'أنشئ حساباً جديداً للوصول إلى لوحة التحكم'
-              }
+              {"مرحباً بعودتك! يرجى تسجيل الدخول لحسابك"}
             </CardDescription>
           </CardHeader>
 
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
-              {!isLogin && (
+              {/* تم إخفاء حقول إنشاء الحساب */}
+              {/* {!isLogin && (
                 <div>
                   <label htmlFor="fullName" className="block text-foreground font-medium mb-2 font-arabic">
                     الاسم الكامل *
@@ -194,10 +206,13 @@ const Auth = () => {
                     required={!isLogin}
                   />
                 </div>
-              )}
+              )} */}
 
               <div>
-                <label htmlFor="email" className="block text-foreground font-medium mb-2 font-arabic">
+                <label
+                  htmlFor="email"
+                  className="block text-foreground font-medium mb-2 font-arabic"
+                >
                   البريد الإلكتروني *
                 </label>
                 <div className="relative">
@@ -216,14 +231,17 @@ const Auth = () => {
               </div>
 
               <div>
-                <label htmlFor="password" className="block text-foreground font-medium mb-2 font-arabic">
+                <label
+                  htmlFor="password"
+                  className="block text-foreground font-medium mb-2 font-arabic"
+                >
                   كلمة المرور *
                 </label>
                 <div className="relative">
                   <Input
                     id="password"
                     name="password"
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     value={form.password}
                     onChange={handleInputChange}
                     placeholder="كلمة المرور"
@@ -236,12 +254,17 @@ const Auth = () => {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    {showPassword ? (
+                      <EyeOff className="w-5 h-5" />
+                    ) : (
+                      <Eye className="w-5 h-5" />
+                    )}
                   </button>
                 </div>
               </div>
 
-              {!isLogin && (
+              {/* تم إخفاء حقل تأكيد كلمة المرور */}
+              {/* {!isLogin && (
                 <div>
                   <label htmlFor="confirmPassword" className="block text-foreground font-medium mb-2 font-arabic">
                     تأكيد كلمة المرور *
@@ -260,23 +283,20 @@ const Auth = () => {
                     <Lock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                   </div>
                 </div>
-              )}
+              )} */}
 
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 disabled={loading}
                 className="btn-hero w-full"
               >
-                {loading ? (
-                  'جاري المعالجة...'
-                ) : (
-                  isLogin ? 'تسجيل الدخول' : 'إنشاء الحساب'
-                )}
+                {loading ? "جاري المعالجة..." : "تسجيل الدخول"}
               </Button>
             </form>
 
             <div className="mt-6 text-center">
-              <p className="text-foreground/70 font-arabic">
+              {/* تم إخفاء زر التبديل بين تسجيل الدخول وإنشاء حساب */}
+              {/* <p className="text-foreground/70 font-arabic">
                 {isLogin ? 'ليس لديك حساب؟' : 'لديك حساب بالفعل؟'}
                 <button
                   onClick={() => {
@@ -287,7 +307,7 @@ const Auth = () => {
                 >
                   {isLogin ? 'إنشاء حساب جديد' : 'تسجيل الدخول'}
                 </button>
-              </p>
+              </p> */}
             </div>
           </CardContent>
         </Card>
